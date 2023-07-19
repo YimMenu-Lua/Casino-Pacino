@@ -39,6 +39,7 @@ casino_heist_driver        = 0
 casino_heist_hacker        = 0
 casino_heist_weapons       = 0
 casino_heist_cars          = 0
+casino_heist_masks         = 0
 
 mpply_last_mp_char = -1
 
@@ -211,98 +212,74 @@ casino_gui:add_imgui(function()
     ImGui.PushItemWidth(165)
     new_approach, approach_clicked = ImGui.Combo("Approach", casino_heist_approach, { "Unselected", "Silent & Sneaky", "The Big Con", "Aggressive" }, 4) --You gotta sneak the word in there, like you're sneaking in food to a movie theater. Tuck it in your jacket for later, then when they least suspect it, deploy the word.
     if approach_clicked then
-        script.run_in_fiber(function(script)
-            set_character_stat("H3OPT_APPROACH", new_approach)
-        end)
+		set_character_stat("H3OPT_APPROACH", new_approach)
     end
     ImGui.SameLine()
     ImGui.Dummy(24, 0)
     ImGui.SameLine()
     new_target, target_clicked = ImGui.Combo("Target", casino_heist_target, { "Money", "Gold", "Art", "Diamonds" }, 4)
     if target_clicked then
-        script.run_in_fiber(function(script)
-            set_character_stat("H3OPT_TARGET", new_target)
-        end)
+		set_character_stat("H3OPT_TARGET", new_target)
     end
     new_last_approach, last_approach_clicked = ImGui.Combo("Last Approach", casino_heist_last_approach, { "Unselected", "Silent & Sneaky", "The Big Con", "Aggressive" }, 4)
     if last_approach_clicked then
-        script.run_in_fiber(function(script)
-            set_character_stat("H3_LAST_APPROACH", new_last_approach)
-        end)
+		set_character_stat("H3_LAST_APPROACH", new_last_approach)
     end
     ImGui.SameLine()
     new_hard_approach, hard_approach_clicked = ImGui.Combo("Hard Approach", casino_heist_hard, { "Unselected", "Silent & Sneaky", "The Big Con", "Aggressive" }, 4)
     if hard_approach_clicked then
-        script.run_in_fiber(function(script)
-            set_character_stat("H3_HARD_APPROACH", new_hard_approach)
-        end)
+		set_character_stat("H3_HARD_APPROACH", new_hard_approach)
     end
     ImGui.PopItemWidth()
     
     ImGui.PushItemWidth(165)
     new_gunman, gunman_clicked = ImGui.Combo("Gunman", casino_heist_gunman, { "Unselected", "Karl Abolaji", "Gustavo Mota", "Charlie Reed", "Chester McCoy", "Patrick McReary" }, 6)
     if gunman_clicked then
-        script.run_in_fiber(function(script)
-            set_character_stat("H3OPT_CREWWEAP", new_gunman)
-        end)
+		set_character_stat("H3OPT_CREWWEAP", new_gunman)
     end
     ImGui.SameLine()
     new_driver, driver_clicked = ImGui.Combo("Driver", casino_heist_driver, { "Unselected", "Karim Deniz", "Taliana Martinez", "Eddie Toh", "Zach Nelson", "Chester McCoy" }, 6)
     if driver_clicked then
-        script.run_in_fiber(function(script)
-            set_character_stat("H3OPT_CREWDRIVER", new_driver)
-        end)
+		set_character_stat("H3OPT_CREWDRIVER", new_driver)
     end
     ImGui.SameLine()
     new_hacker, hacker_clicked = ImGui.Combo("Hacker", casino_heist_hacker, { "Unselected", "Rickie Lukens", "Christian Feltz", "Yohan Blair", "Avi Schwartzman", "Page Harris" }, 6)
     if hacker_clicked then
-        script.run_in_fiber(function(script)
-            set_character_stat("H3OPT_CREWHACKER", new_hacker)
-        end)
+		set_character_stat("H3OPT_CREWDRIVER", new_hacker)
     end
     
     if casino_heist_gunman == 1 then --Karl Abolaji
         local karl_gun_list = { {"##1", "##2"}, { "Micro SMG Loadout", "Machine Pistol Loadout" }, { "Micro SMG Loadout", "Shotgun Loadout" }, { "Shotgun Loadout", "Revolver Loadout" } }
         new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, karl_gun_list[casino_heist_approach+1], 2)
         if weapons_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_WEAPS", new_weapons)
-            end)
+			set_character_stat("H3OPT_WEAPS", new_weapons)
         end
         ImGui.SameLine()
     elseif casino_heist_gunman == 2 then --Gustavo Fring
         new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, { "Rifle Loadout", "Shotgun Loadout" }, 2)
         if weapons_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_WEAPS", new_weapons)
-            end)
+			set_character_stat("H3OPT_WEAPS", new_weapons)
         end
         ImGui.SameLine()
     elseif casino_heist_gunman == 3 then --Charlie Reed
         local charlie_gun_list = { {"##1", "##2"}, { "SMG Loadout", "Shotgun Loadout" }, { "Machine Pistol Loadout", "Shotgun Loadout" }, { "SMG Loadout", "Shotgun Loadout" } }
         new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, charlie_gun_list[casino_heist_approach+1], 2)
         if weapons_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_WEAPS", new_weapons)
-            end)
+			set_character_stat("H3OPT_WEAPS", new_weapons)
         end
         ImGui.SameLine()
     elseif casino_heist_gunman == 4 then --Chester McCoy
         local chester_gun_list = { {"##1", "##2"}, { "MK II Shotgun Loadout", "MK II Rifle Loadout" }, { "MK II SMG Loadout", "MK II Rifle Loadout" }, { "MK II Shotgun Loadout", "MK II Rifle Loadout" } }
         new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, chester_gun_list[casino_heist_approach+1], 2)
         if weapons_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_WEAPS", new_weapons)
-            end)
+			set_character_stat("H3OPT_WEAPS", new_weapons)
         end
         ImGui.SameLine()
     elseif casino_heist_gunman == 5 then --Laddie Paddie Sadie Enweird
         local laddie_paddie_gun_list = { {"##1", "##2"}, { "Combat PDW Loadout", "Rifle Loadout" }, { "Shotgun Loadout", "Rifle Loadout" }, { "Shotgun Loadout", "Combat MG Loadout" } }
         new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, laddie_paddie_gun_list[casino_heist_approach+1], 2)
         if weapons_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_WEAPS", new_weapons)
-            end)
+			set_character_stat("H3OPT_WEAPS", new_weapons)
         end
         ImGui.SameLine()
     end
@@ -310,38 +287,33 @@ casino_gui:add_imgui(function()
     if casino_heist_driver == 1 then --Karim Deniz
         new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Issi Classic", "Asbo", "Kanjo", "Sentinel Classic" }, 4)
         if car_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_VEHS", new_car)
-            end)
+			set_character_stat("H3OPT_VEHS", new_car)
         end
     elseif casino_heist_driver == 2 then --Taliana Martinez
         new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Retinue MK II", "Drift Yosemite", "Sugoi", "Jugular" }, 4)
         if car_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_VEHS", new_car)
-            end)
+			set_character_stat("H3OPT_VEHS", new_car)
         end
     elseif casino_heist_driver == 3 then --Eddie Toh
         new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Sultan Classic", "Guantlet Classic", "Ellie", "Komoda" }, 4)
         if car_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_VEHS", new_car)
-            end)
+			set_character_stat("H3OPT_VEHS", new_car)
         end
     elseif casino_heist_driver == 4 then --Zach Nelson
         new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Manchez", "Stryder", "Defiler", "Lectro" }, 4)
         if car_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_VEHS", new_car)
-            end)
+			set_character_stat("H3OPT_VEHS", new_car)
         end
     elseif casino_heist_driver == 5 then --Chester McCoy
         new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Zhaba", "Vagrant", "Outlaw", "Everon" }, 4)
         if car_clicked then
-            script.run_in_fiber(function(script)
-                set_character_stat("H3OPT_VEHS", new_car)
-            end)
+			set_character_stat("H3OPT_VEHS", new_car)
         end
+    end
+	
+	new_masks, masks_clicked = ImGui.Combo("Masks", casino_heist_masks, { "Unselected", "Geometric Set", "Hunter Set", "Oni Half Mask Set", "Emoji Set", "Ornate Skull Set", "Lucky Fruit Set", "Gurilla Set", "Clown Set", "Animal Set", "Riot Set", "Oni Set", "Hockey Set" }, 13)
+    if masks_clicked then
+		set_character_stat("H3OPT_MASKS", new_masks)
     end
 end)
 
@@ -473,6 +445,7 @@ script.register_looped("Casino Pachino Thread", function (script)
     casino_heist_hacker = get_character_stat("H3OPT_CREWHACKER")
     casino_heist_weapons = get_character_stat("H3OPT_WEAPS")
     casino_heist_cars = get_character_stat("H3OPT_VEHS")
+    casino_heist_masks = get_character_stat("H3OPT_MASKS")
 	if (HUD.IS_PAUSE_MENU_ACTIVE()) then
 		PAD.DISABLE_CONTROL_ACTION(0, 348, 1)
 		PAD.DISABLE_CONTROL_ACTION(0, 204, 1)
