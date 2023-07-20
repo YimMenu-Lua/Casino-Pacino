@@ -109,7 +109,7 @@ casino_gui:add_separator()
 casino_gui:add_text("Blackjack")
 casino_gui:add_text("Dealer's face down card: ")
 casino_gui:add_sameline()
-dealers_card_gui_element = casino_gui:add_input_string()
+dealers_card_gui_element = casino_gui:add_input_string("##dealers_card_gui_element")
 
 casino_gui:add_button("Set Dealer's Hand To Bust", function()
     script.run_in_fiber(function (script)
@@ -435,7 +435,7 @@ script.register_looped("Casino Pacino Thread", function (script)
         STATS.STAT_SET_INT(joaat("MPPLY_CASINO_CHIPS_WON_GD"), 0, true)
     end
     if gui.is_open() and casino_gui:is_selected() then
-        _,mpply_last_mp_char = STATS.STAT_GET_INT(joaat("MPPLY_LAST_MP_CHAR"), 0, true)
+        _,mpply_last_mp_char = STATS.STAT_GET_INT(joaat("MPPLY_LAST_MP_CHAR"), 0, 1)
         casino_heist_approach = get_character_stat("H3OPT_APPROACH")
         casino_heist_target = get_character_stat("H3OPT_TARGET")
         casino_heist_last_approach = get_character_stat("H3_LAST_APPROACH")
@@ -448,7 +448,7 @@ script.register_looped("Casino Pacino Thread", function (script)
         casino_heist_masks = get_character_stat("H3OPT_MASKS")
     end
     if HUD.IS_PAUSE_MENU_ACTIVE() then
-        PAD.DISABLE_CONTROL_ACTION(0, 348, 1)
-        PAD.DISABLE_CONTROL_ACTION(0, 204, 1)
+        PAD.DISABLE_CONTROL_ACTION(0, 348, true)
+        PAD.DISABLE_CONTROL_ACTION(0, 204, true)
     end
 end)
