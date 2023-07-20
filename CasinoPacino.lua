@@ -245,7 +245,7 @@ casino_gui:add_imgui(function()
     ImGui.SameLine()
     new_hacker, hacker_clicked = ImGui.Combo("Hacker", casino_heist_hacker, { "Unselected", "Rickie Lukens", "Christian Feltz", "Yohan Blair", "Avi Schwartzman", "Page Harris" }, 6)
     if hacker_clicked then
-        set_character_stat("H3OPT_CREWDRIVER", new_hacker)
+        set_character_stat("H3OPT_CREWHACKER", new_hacker)
     end
     
     if casino_heist_gunman == 1 then --Karl Abolaji
