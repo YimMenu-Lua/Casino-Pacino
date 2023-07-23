@@ -41,6 +41,10 @@ casino_heist_weapons       = 0
 casino_heist_cars          = 0
 casino_heist_masks         = 0
 
+fm_mission_controller_cart_grab       = 10247
+fm_mission_controller_cart_grab_speed = 14
+fm_mission_controller_cart_autograb   = true
+
 mpply_last_mp_char = -1
 
 bypass_casino_bans = casino_gui:add_checkbox("Bypass Casino Cooldown")
@@ -315,6 +319,8 @@ casino_gui:add_imgui(function()
     if masks_clicked then
         set_character_stat("H3OPT_MASKS", new_masks)
     end
+    ImGui.SameLine()
+    fm_mission_controller_cart_autograb,_ = ImGui.Checkbox("Auto Grab Cash/Gold/Diamonds", fm_mission_controller_cart_autograb)
 end)
 
 casino_gui:add_button("Unlock All Heist Options", function ()
@@ -450,5 +456,12 @@ script.register_looped("Casino Pacino Thread", function (script)
     if HUD.IS_PAUSE_MENU_ACTIVE() then
         PAD.DISABLE_CONTROL_ACTION(0, 348, true)
         PAD.DISABLE_CONTROL_ACTION(0, 204, true)
+    end
+    if fm_mission_controller_cart_autograb then
+        if locals.get_int("fm_mission_controller", fm_mission_controller_cart_grab) == 3 then
+            locals.set_int("fm_mission_controller", fm_mission_controller_cart_grab, 4)
+        elseif locals.get_int("fm_mission_controller", fm_mission_controller_cart_grab) == 4 then
+            locals.set_float("fm_mission_controller", fm_mission_controller_cart_grab + fm_mission_controller_cart_grab_speed, 2)
+        end
     end
 end)
