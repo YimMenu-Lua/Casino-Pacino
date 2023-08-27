@@ -129,7 +129,6 @@ force_roulette_wheel = casino_gui:add_checkbox("Force Roulette Wheel to Land On 
 casino_gui:add_separator()
 casino_gui:add_text("Slots")
 rig_slot_machine = casino_gui:add_checkbox("Rig Slot Machines")
-rig_slot_machine_keeper = false
 
 casino_gui:add_separator()
 casino_gui:add_text("Lucky Wheel")
@@ -324,7 +323,7 @@ casino_gui:add_button("Unlock All Heist Options", function ()
         stats.set_int("MPX_H3_COMPLETEDPOSIX", 0)
         stats.set_int("MPX_CAS_HEIST_FLOW", -1)
         STATS.STAT_SET_INT(joaat("MPPLY_H3_COOLDOWN"), 0, true)
-		_,mpply_last_mp_char = STATS.STAT_GET_INT(joaat("MPPLY_LAST_MP_CHAR"), 0, 1)
+        _,mpply_last_mp_char = STATS.STAT_GET_INT(joaat("MPPLY_LAST_MP_CHAR"), 0, 1)
         STATS.SET_PACKED_STAT_BOOL_CODE(26969, 1, mpply_last_mp_char) --Unlock High Roller
     end)
 end)
@@ -412,13 +411,30 @@ script.register_looped("Casino Pacino Thread", function (script)
             end
         end
     end
-    if rig_slot_machine_keeper ~= rig_slot_machine:is_enabled() then
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_slots")) ~= 0 then
-            rig_slot_machine_keeper = rig_slot_machine:is_enabled()
+    if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_slots")) ~= 0 then
+        local needs_run = false
+        if rig_slot_machine:is_enabled() then
+            for slots_iter = 3, 195, 1 do
+                if slots_iter ~= 67 and slots_iter ~= 132 then
+                    if locals.get_int("casino_slots", (slots_random_results_table) + (slots_iter)) ~= 6 then
+                        needs_run = true
+                    end
+                end
+            end
+        else
+            local sum = 0
+            for slots_iter = 3, 195, 1 do
+                if slots_iter ~= 67 and slots_iter ~= 132 then
+                    sum = sum + locals.get_int("casino_slots", (slots_random_results_table) + (slots_iter))
+                end
+            end
+            needs_run = sum == 1146
+        end
+        if needs_run then
             for slots_iter = 3, 195, 1 do
                 if slots_iter ~= 67 and slots_iter ~= 132 then
                     local slot_result = 6
-                    if rig_slot_machine_keeper == false then
+                    if rig_slot_machine:is_enabled() == false then
                         math.randomseed(os.time()+slots_iter)
                         slot_result = math.random(0, 7)
                     end
