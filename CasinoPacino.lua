@@ -73,7 +73,7 @@ function get_cardname_from_index(card_index)
         cardName = "Jack"
     elseif card_number == 12 then
         cardName = "Queen"
-    elseif card_number == 13 then
+    elseif card_number == 0 then
         cardName = "King"
     else
         cardName = tostring(card_number)
