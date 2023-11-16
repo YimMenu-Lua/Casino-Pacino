@@ -1,58 +1,52 @@
-casino_gui = gui.get_tab("GUI_TAB_NETWORK"):add_tab("Casino") --IT'S NOT AL ANYMORE! IT'S DUNK!
+local casino_gui = gui.get_tab("GUI_TAB_NETWORK"):add_tab("Casino") --IT'S NOT AL ANYMORE! IT'S DUNK!
 
-blackjack_cards         = 112
-blackjack_table_players = 1772
-blackjack_decks         = 846
+local blackjack_cards         = 112 --blackjack.c | { 0, 4, 208, 0
+local blackjack_table_players = 1772 --blackjack.c | [32];
+local blackjack_decks         = 846 --blackjack.c | [1]) == 10 || 
 
-three_card_poker_cards           = blackjack_cards
-three_card_poker_table           = 745
-three_card_poker_current_deck    = 168
-three_card_poker_anti_cheat      = 1034
-three_card_poker_anti_cheat_deck = 799
-three_card_poker_deck_size       = 55
+local three_card_poker_cards           = blackjack_cards
+local three_card_poker_table           = 745 --three_card_poker | [32];
+local three_card_poker_current_deck    = 168 --three_card_poker | [iVar0 /*55*/]));
+local three_card_poker_anti_cheat      = 1034 --three_card_poker | struct<855>
+local three_card_poker_anti_cheat_deck = 799 --threecard_poker | [iParam0 /*55*/] };
+local three_card_poker_deck_size       = 55
 
-roulette_master_table   = 120
-roulette_outcomes_table = 1357
-roulette_ball_table     = 153
+local roulette_master_table   = 120 --casinoroulette | { 0, 6, 0, 0, 0,
+local roulette_outcomes_table = 1357 --casinoroulette | if (Var0.f_4 == 31)
+local roulette_ball_table     = 153 --casinoroulette | if (Var0.f_4 == 31)
 
-slots_random_results_table = 1344
+local slots_random_results_table = 1344 -- casino_slots | { 64, 3, 64, 0,
 
-prize_wheel_win_state   = 276
-prize_wheel_prize       = 14
-prize_wheel_prize_state = 45
+local prize_wheel_win_state   = 276 --casino_lucky_wheel.c | { 0, 0, 0, 0, 0, 0
+local prize_wheel_prize       = 14 --casino_lucky_wheel.c | CAS_LW_RCLO
+local prize_wheel_prize_state = 45 --casino_lucky_wheel.c | CAS_LW_VOUCH
 
-globals_tuneable        = 262145
+local gb_casino_heist_planning            = 1971696 --gb_casino_heist_planning.c | __EntryFunction__()
+local gb_casino_heist_planning_cut_offset = 1497 + 736 + 92 --gb_casino_heist_planning.c | AUDIO::PLAY_SOUND_FRONTEND(-1, "Highlight_Error", "DLC_HEIST_PLANNING_BOARD_SOUNDS", true);
 
-casino_heist_cut        = 1971696
-casino_heist_cut_offset = 1497 + 736 + 92
-casino_heist_lester_cut = 28998
-casino_heist_gunman_cut = 29024
-casino_heist_driver_cut = 29029
-casino_heist_hacker_cut = 29035
+local fm_mission_controller_cart_grab       = 10247 --fm_mission_controller | DLC_HEIST_MINIGAME_PAC_CASH_GRAB_SCENE
+local fm_mission_controller_cart_grab_speed = 14 --fm_mission_controller | PED::SET_SYNCHRONIZED_SCENE_RATE(NETWORK::NETWORK_GET_LOCAL_SCENE_FROM_NETWORK_ID(
+local fm_mission_controller_cart_autograb   = true
 
-casino_heist_approach      = 0
-casino_heist_target        = 0
-casino_heist_last_approach = 0
-casino_heist_hard          = 0
-casino_heist_gunman        = 0
-casino_heist_driver        = 0
-casino_heist_hacker        = 0
-casino_heist_weapons       = 0
-casino_heist_cars          = 0
-casino_heist_masks         = 0
+local casino_heist_approach      = 0
+local casino_heist_target        = 0
+local casino_heist_last_approach = 0
+local casino_heist_hard          = 0
+local casino_heist_gunman        = 0
+local casino_heist_driver        = 0
+local casino_heist_hacker        = 0
+local casino_heist_weapons       = 0
+local casino_heist_cars          = 0
+local casino_heist_masks         = 0
 
-fm_mission_controller_cart_grab       = 10247
-fm_mission_controller_cart_grab_speed = 14
-fm_mission_controller_cart_autograb   = true
-
-bypass_casino_bans = casino_gui:add_checkbox("Bypass Casino Cooldown")
+local bypass_casino_bans = casino_gui:add_checkbox("Bypass Casino Cooldown")
 casino_gui:add_text("Winning too much too quickly might get you banned, enable this at your own risk.")
 casino_gui:add_separator()
 
 casino_gui:add_text("Poker") --If his name is Al Pacino and he said, "It's not Al anymore, it's Dunk!", then his name should now be Dunk Pacino.
-force_poker_cards = casino_gui:add_checkbox("Force all Players Hands to Royal Flush")
+local force_poker_cards = casino_gui:add_checkbox("Force all Players Hands to Royal Flush")
 casino_gui:add_sameline()
-set_dealers_poker_cards = casino_gui:add_checkbox("Force Dealer's Hand to Bad Beat")
+local set_dealers_poker_cards = casino_gui:add_checkbox("Force Dealer's Hand to Bad Beat")
 set_dealers_poker_cards:set_enabled(true)
 
 function set_poker_cards(player_id, players_current_table, card_one, card_two, card_three)
@@ -102,7 +96,7 @@ casino_gui:add_separator()
 casino_gui:add_text("Blackjack")
 casino_gui:add_text("Dealer's face down card: ")
 casino_gui:add_sameline()
-dealers_card_gui_element = casino_gui:add_input_string("##dealers_card_gui_element")
+local dealers_card_gui_element = casino_gui:add_input_string("##dealers_card_gui_element")
 
 casino_gui:add_button("Set Dealer's Hand To Bust", function()
     script.run_in_fiber(function (script)
@@ -124,11 +118,11 @@ end)
 
 casino_gui:add_separator()
 casino_gui:add_text("Roulette")
-force_roulette_wheel = casino_gui:add_checkbox("Force Roulette Wheel to Land On Red 18")
+local force_roulette_wheel = casino_gui:add_checkbox("Force Roulette Wheel to Land On Red 18")
 
 casino_gui:add_separator()
 casino_gui:add_text("Slots")
-rig_slot_machine = casino_gui:add_checkbox("Rig Slot Machines")
+local rig_slot_machine = casino_gui:add_checkbox("Rig Slot Machines")
 
 casino_gui:add_separator()
 casino_gui:add_text("Lucky Wheel")
@@ -211,20 +205,20 @@ casino_gui:add_imgui(function()
     ImGui.SameLine()
     ImGui.Dummy(24, 0)
     ImGui.SameLine()
-    new_target, target_clicked = ImGui.Combo("Target", casino_heist_target, { "Money", "Gold", "Art", "Diamonds" }, 4)
+    local new_target, target_clicked = ImGui.Combo("Target", casino_heist_target, { "Money", "Gold", "Art", "Diamonds" }, 4)
     if target_clicked then
         script.run_in_fiber(function (script)
             stats.set_int("MPX_H3OPT_TARGET", new_target)
         end)
     end
-    new_last_approach, last_approach_clicked = ImGui.Combo("Last Approach", casino_heist_last_approach, { "Unselected", "Silent & Sneaky", "The Big Con", "Aggressive" }, 4)
+    local new_last_approach, last_approach_clicked = ImGui.Combo("Last Approach", casino_heist_last_approach, { "Unselected", "Silent & Sneaky", "The Big Con", "Aggressive" }, 4)
     if last_approach_clicked then
         script.run_in_fiber(function (script)
             stats.set_int("MPX_H3_LAST_APPROACH", new_last_approach)
         end)
     end
     ImGui.SameLine()
-    new_hard_approach, hard_approach_clicked = ImGui.Combo("Hard Approach", casino_heist_hard, { "Unselected", "Silent & Sneaky", "The Big Con", "Aggressive" }, 4)
+    local new_hard_approach, hard_approach_clicked = ImGui.Combo("Hard Approach", casino_heist_hard, { "Unselected", "Silent & Sneaky", "The Big Con", "Aggressive" }, 4)
     if hard_approach_clicked then
         script.run_in_fiber(function (script)
             stats.set_int("MPX_H3_HARD_APPROACH", new_hard_approach)
@@ -233,21 +227,21 @@ casino_gui:add_imgui(function()
     ImGui.PopItemWidth()
     
     ImGui.PushItemWidth(165)
-    new_gunman, gunman_clicked = ImGui.Combo("Gunman", casino_heist_gunman, { "Unselected", "Karl Abolaji", "Gustavo Mota", "Charlie Reed", "Chester McCoy", "Patrick McReary" }, 6)
+    local new_gunman, gunman_clicked = ImGui.Combo("Gunman", casino_heist_gunman, { "Unselected", "Karl Abolaji", "Gustavo Mota", "Charlie Reed", "Chester McCoy", "Patrick McReary" }, 6)
     if gunman_clicked then
         script.run_in_fiber(function (script)
             stats.set_int("MPX_H3OPT_CREWWEAP", new_gunman)
         end)
     end
     ImGui.SameLine()
-    new_driver, driver_clicked = ImGui.Combo("Driver", casino_heist_driver, { "Unselected", "Karim Deniz", "Taliana Martinez", "Eddie Toh", "Zach Nelson", "Chester McCoy" }, 6)
+    local new_driver, driver_clicked = ImGui.Combo("Driver", casino_heist_driver, { "Unselected", "Karim Deniz", "Taliana Martinez", "Eddie Toh", "Zach Nelson", "Chester McCoy" }, 6)
     if driver_clicked then
         script.run_in_fiber(function (script)
             stats.set_int("MPX_H3OPT_CREWDRIVER", new_driver)
         end)
     end
     ImGui.SameLine()
-    new_hacker, hacker_clicked = ImGui.Combo("Hacker", casino_heist_hacker, { "Unselected", "Rickie Lukens", "Christian Feltz", "Yohan Blair", "Avi Schwartzman", "Page Harris" }, 6)
+    local new_hacker, hacker_clicked = ImGui.Combo("Hacker", casino_heist_hacker, { "Unselected", "Rickie Lukens", "Christian Feltz", "Yohan Blair", "Avi Schwartzman", "Page Harris" }, 6)
     if hacker_clicked then
         script.run_in_fiber(function (script)
             stats.set_int("MPX_H3OPT_CREWHACKER", new_hacker)
@@ -255,8 +249,8 @@ casino_gui:add_imgui(function()
     end
     
     if casino_heist_gunman == 1 then --Karl Abolaji
-        local karl_gun_list = { {"##1", "##2"}, { "Micro SMG Loadout", "Machine Pistol Loadout" }, { "Micro SMG Loadout", "Shotgun Loadout" }, { "Shotgun Loadout", "Revolver Loadout" } }
-        new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, karl_gun_list[casino_heist_approach+1], 2)
+        local karl_gun_list = { {'##1", "##2'}, { "Micro SMG Loadout", "Machine Pistol Loadout" }, { "Micro SMG Loadout", "Shotgun Loadout" }, { "Shotgun Loadout", "Revolver Loadout" } }
+        local new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, karl_gun_list[casino_heist_approach+1], 2)
         if weapons_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_WEAPS", new_weapons)
@@ -264,7 +258,7 @@ casino_gui:add_imgui(function()
         end
         ImGui.SameLine()
     elseif casino_heist_gunman == 2 then --Gustavo Fring
-        new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, { "Rifle Loadout", "Shotgun Loadout" }, 2)
+        local new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, { "Rifle Loadout", "Shotgun Loadout" }, 2)
         if weapons_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_WEAPS", new_weapons)
@@ -272,8 +266,8 @@ casino_gui:add_imgui(function()
         end
         ImGui.SameLine()
     elseif casino_heist_gunman == 3 then --Charlie Reed
-        local charlie_gun_list = { {"##1", "##2"}, { "SMG Loadout", "Shotgun Loadout" }, { "Machine Pistol Loadout", "Shotgun Loadout" }, { "SMG Loadout", "Shotgun Loadout" } }
-        new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, charlie_gun_list[casino_heist_approach+1], 2)
+        local charlie_gun_list = { {'##1", "##2'}, { "SMG Loadout", "Shotgun Loadout" }, { "Machine Pistol Loadout", "Shotgun Loadout" }, { "SMG Loadout", "Shotgun Loadout" } }
+        local new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, charlie_gun_list[casino_heist_approach+1], 2)
         if weapons_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_WEAPS", new_weapons)
@@ -281,8 +275,8 @@ casino_gui:add_imgui(function()
         end
         ImGui.SameLine()
     elseif casino_heist_gunman == 4 then --Chester McCoy
-        local chester_gun_list = { {"##1", "##2"}, { "MK II Shotgun Loadout", "MK II Rifle Loadout" }, { "MK II SMG Loadout", "MK II Rifle Loadout" }, { "MK II Shotgun Loadout", "MK II Rifle Loadout" } }
-        new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, chester_gun_list[casino_heist_approach+1], 2)
+        local chester_gun_list = { {'##1", "##2'}, { "MK II Shotgun Loadout", "MK II Rifle Loadout" }, { "MK II SMG Loadout", "MK II Rifle Loadout" }, { "MK II Shotgun Loadout", "MK II Rifle Loadout" } }
+        local new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, chester_gun_list[casino_heist_approach+1], 2)
         if weapons_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_WEAPS", new_weapons)
@@ -290,8 +284,8 @@ casino_gui:add_imgui(function()
         end
         ImGui.SameLine()
     elseif casino_heist_gunman == 5 then --Laddie Paddie Sadie Enweird
-        local laddie_paddie_gun_list = { {"##1", "##2"}, { "Combat PDW Loadout", "Rifle Loadout" }, { "Shotgun Loadout", "Rifle Loadout" }, { "Shotgun Loadout", "Combat MG Loadout" } }
-        new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, laddie_paddie_gun_list[casino_heist_approach+1], 2)
+        local laddie_paddie_gun_list = { {'##1", "##2'}, { "Combat PDW Loadout", "Rifle Loadout" }, { "Shotgun Loadout", "Rifle Loadout" }, { "Shotgun Loadout", "Combat MG Loadout" } }
+        local new_weapons, weapons_clicked = ImGui.Combo("Unmarked Weapons", casino_heist_weapons, laddie_paddie_gun_list[casino_heist_approach+1], 2)
         if weapons_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_WEAPS", new_weapons)
@@ -301,35 +295,35 @@ casino_gui:add_imgui(function()
     end
     
     if casino_heist_driver == 1 then --Karim Deniz
-        new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Issi Classic", "Asbo", "Kanjo", "Sentinel Classic" }, 4)
+        local new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Issi Classic", "Asbo", "Kanjo", "Sentinel Classic" }, 4)
         if car_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_VEHS", new_car)
             end)
         end
     elseif casino_heist_driver == 2 then --Taliana Martinez
-        new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Retinue MK II", "Drift Yosemite", "Sugoi", "Jugular" }, 4)
+        local new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Retinue MK II", "Drift Yosemite", "Sugoi", "Jugular" }, 4)
         if car_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_VEHS", new_car)
             end)
         end
     elseif casino_heist_driver == 3 then --Eddie Toh
-        new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Sultan Classic", "Guantlet Classic", "Ellie", "Komoda" }, 4)
+        local new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Sultan Classic", "Guantlet Classic", "Ellie", "Komoda" }, 4)
         if car_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_VEHS", new_car)
             end)
         end
     elseif casino_heist_driver == 4 then --Zach Nelson
-        new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Manchez", "Stryder", "Defiler", "Lectro" }, 4)
+        local new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Manchez", "Stryder", "Defiler", "Lectro" }, 4)
         if car_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_VEHS", new_car)
             end)
         end
     elseif casino_heist_driver == 5 then --Chester McCoy
-        new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Zhaba", "Vagrant", "Outlaw", "Everon" }, 4)
+        local new_car, car_clicked = ImGui.Combo("Getaway Vehicles", casino_heist_cars, { "Zhaba", "Vagrant", "Outlaw", "Everon" }, 4)
         if car_clicked then
             script.run_in_fiber(function (script)
                 stats.set_int("MPX_H3OPT_VEHS", new_car)
@@ -337,7 +331,7 @@ casino_gui:add_imgui(function()
         end
     end
     
-    new_masks, masks_clicked = ImGui.Combo("Masks", casino_heist_masks, { "Unselected", "Geometric Set", "Hunter Set", "Oni Half Mask Set", "Emoji Set", "Ornate Skull Set", "Lucky Fruit Set", "Gurilla Set", "Clown Set", "Animal Set", "Riot Set", "Oni Set", "Hockey Set" }, 13)
+    local new_masks, masks_clicked = ImGui.Combo("Masks", casino_heist_masks, { "Unselected", "Geometric Set", "Hunter Set", "Oni Half Mask Set", "Emoji Set", "Ornate Skull Set", "Lucky Fruit Set", "Gurilla Set", "Clown Set", "Animal Set", "Riot Set", "Oni Set", "Hockey Set" }, 13)
     if masks_clicked then
         script.run_in_fiber(function (script)
             stats.set_int("MPX_H3OPT_MASKS", new_masks)
@@ -358,36 +352,35 @@ casino_gui:add_button("Unlock All Heist Options", function ()
         stats.set_int("MPX_H3OPT_KEYLEVELS", 2)
         stats.set_int("MPX_H3_COMPLETEDPOSIX", 0)
         stats.set_int("MPX_CAS_HEIST_FLOW", -1)
-        STATS.STAT_SET_INT(joaat("MPPLY_H3_COOLDOWN"), 0, true)
-        _,mpply_last_mp_char = STATS.STAT_GET_INT(joaat("MPPLY_LAST_MP_CHAR"), 0, 1)
-        STATS.SET_PACKED_STAT_BOOL_CODE(26969, 1, mpply_last_mp_char) --Unlock High Roller
+        stats.set_int("MPPLY_H3_COOLDOWN", 0)
+        STATS.SET_PACKED_STAT_BOOL_CODE(26969, 1, stats.get_character_index()) --Unlock High Roller
     end)
 end)
 casino_gui:add_sameline()
 casino_gui:add_button("Set AI Crew Cuts to 0%", function ()
-    globals.set_int(globals_tuneable + casino_heist_lester_cut, 0)
-    globals.set_int(globals_tuneable + casino_heist_gunman_cut, 0)
-    globals.set_int(globals_tuneable + casino_heist_gunman_cut + 1, 0)
-    globals.set_int(globals_tuneable + casino_heist_gunman_cut + 2, 0)
-    globals.set_int(globals_tuneable + casino_heist_gunman_cut + 3, 0)
-    globals.set_int(globals_tuneable + casino_heist_gunman_cut + 4, 0)
-    globals.set_int(globals_tuneable + casino_heist_driver_cut, 0)
-    globals.set_int(globals_tuneable + casino_heist_driver_cut + 1, 0)
-    globals.set_int(globals_tuneable + casino_heist_driver_cut + 2, 0)
-    globals.set_int(globals_tuneable + casino_heist_driver_cut + 3, 0)
-    globals.set_int(globals_tuneable + casino_heist_driver_cut + 4, 0)
-    globals.set_int(globals_tuneable + casino_heist_hacker_cut, 0)
-    globals.set_int(globals_tuneable + casino_heist_hacker_cut + 1, 0)
-    globals.set_int(globals_tuneable + casino_heist_hacker_cut + 2, 0)
-    globals.set_int(globals_tuneable + casino_heist_hacker_cut + 3, 0)
-    globals.set_int(globals_tuneable + casino_heist_hacker_cut + 4, 0)
+    tunables.set_int("CH_LESTER_CUT", 0)
+    tunables.set_int(74718927, 0)
+    tunables.set_int(2084651107, 0)
+    tunables.set_int(2092632403, 0)
+    tunables.set_int(-289926524, 0)
+    tunables.set_int(-409770275, 0)
+    tunables.set_int(88090906, 0)
+    tunables.set_int(-891458514, 0)
+    tunables.set_int(1321285827, 0)
+    tunables.set_int(-856366310, 0)
+    tunables.set_int(-1218087984, 0)
+    tunables.set_int(-634674073, 0)
+    tunables.set_int(-1507129807, 0)
+    tunables.set_int(-490900621, 0)
+    tunables.set_int(-1454763111, 0)
+    tunables.set_int(465695624, 0)
 end)
 casino_gui:add_sameline()
 casino_gui:add_button("Set All Cuts to 100%", function ()
-    globals.set_int(casino_heist_cut + casino_heist_cut_offset + 1, 100)
-    globals.set_int(casino_heist_cut + casino_heist_cut_offset + 2, 100)
-    globals.set_int(casino_heist_cut + casino_heist_cut_offset + 3, 100)
-    globals.set_int(casino_heist_cut + casino_heist_cut_offset + 4, 100)
+    globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + 1, 100)
+    globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + 2, 100)
+    globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + 3, 100)
+    globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + 4, 100)
 end)
 
 script.register_looped("Casino Pacino Thread", function (script)
@@ -480,7 +473,7 @@ script.register_looped("Casino Pacino Thread", function (script)
         end
     end
     if bypass_casino_bans:is_enabled() then
-        STATS.STAT_SET_INT(joaat("MPPLY_CASINO_CHIPS_WON_GD"), 0, true)
+        stats.set_int("MPPLY_CASINO_CHIPS_WON_GD", 0)
     end
     if gui.is_open() and casino_gui:is_selected() then
         casino_heist_approach = stats.get_int("MPX_H3OPT_APPROACH")
