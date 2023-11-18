@@ -16,6 +16,7 @@ local roulette_outcomes_table = 1357 --casinoroulette | if (Var0.f_4 == 31)
 local roulette_ball_table     = 153 --casinoroulette | if (Var0.f_4 == 31)
 
 local slots_random_results_table = 1344 -- casino_slots | { 64, 3, 64, 0,
+local slots_slot_machine_state   = 1634 -- casino_slots | AUDIO::PLAY_SOUND_FRONTEND(-1, "DLC_VW_CONTINUE", "dlc_vw_table_games_frontend_sounds", true);
 
 local prize_wheel_win_state   = 276 --casino_lucky_wheel.c | { 0, 0, 0, 0, 0, 0
 local prize_wheel_prize       = 14 --casino_lucky_wheel.c | CAS_LW_RCLO
@@ -123,6 +124,11 @@ local force_roulette_wheel = casino_gui:add_checkbox("Force Roulette Wheel to La
 casino_gui:add_separator()
 casino_gui:add_text("Slots")
 local rig_slot_machine = casino_gui:add_checkbox("Rig Slot Machines")
+casino_gui:add_sameline()
+local autoplay_slots = casino_gui:add_checkbox("Autoplay")
+casino_gui:add_sameline()
+local autoplay_cap = casino_gui:add_checkbox("Autoplay Cap")
+local autoplay_chips_cap = casino_gui:add_input_int("Autoplay Until Chips Cap") --Give it a good say there, laddie.
 
 casino_gui:add_separator()
 casino_gui:add_text("Lucky Wheel")
@@ -468,6 +474,21 @@ script.register_looped("Casino Pacino Thread", function (script)
                         slot_result = math.random(0, 7)
                     end
                     locals.set_int("casino_slots", (slots_random_results_table) + (slots_iter), slot_result)
+                end
+            end
+        end
+        local slotstate = locals.get_int("casino_slots", slots_slot_machine_state) --Local Laddie️™®️© is a product of Limited Laddies LLC, all rights reserved.
+        if slotstate & (1 << 0) == 1 then --The user is sitting at a slot machine.
+            if autoplay_slots:is_enabled() then
+                local chips = stats.get_int(STATS.GET_STAT_HASH_FOR_CHARACTER_STAT_(0, 8251, stats.get_character_index()))
+                local chip_cap = autoplay_chips_cap:get_value()
+                if (autoplay_cap:is_enabled() and chips < chip_cap) or autoplay_cap:is_enabled() == false then
+                    if (slotstate & (1 << 24) == 0) then --The slot machine is not currently spinning.
+                        script:yield() -- Wait for the previous spin to clean up, if we just came from a spin.
+                        slotstate = slotstate | (1 << 3) -- Bitwise set the 3rd bit (begin playing)
+                        locals.set_int("casino_slots", slots_slot_machine_state, slotstate)
+                        script:sleep(500) --If we rewrite the begin playing bit again, the machine will get stuck.
+                    end
                 end
             end
         end
