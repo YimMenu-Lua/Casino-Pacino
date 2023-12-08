@@ -364,7 +364,7 @@ casino_gui:add_button("Unlock All Heist Options", function ()
         stats.set_int("MPX_H3_COMPLETEDPOSIX", 0)
         stats.set_int("MPX_CAS_HEIST_FLOW", -1)
         stats.set_int("MPPLY_H3_COOLDOWN", 0)
-        STATS.SET_PACKED_STAT_BOOL_CODE(26969, 1, stats.get_character_index()) --Unlock High Roller
+        stats.set_packed_stat_bool(26969, true) --Unlock High Roller
     end)
 end)
 casino_gui:add_sameline()
