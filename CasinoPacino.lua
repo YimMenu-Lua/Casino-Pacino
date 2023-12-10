@@ -454,7 +454,7 @@ script.register_looped("Casino Pacino Thread", function (script)
     if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_slots")) ~= 0 then
         local needs_run = false
         if rig_slot_machine:is_enabled() then
-            for slots_iter = 3, 195, 1 do
+            for slots_iter = 3, 196, 1 do
                 if slots_iter ~= 67 and slots_iter ~= 132 then
                     if locals.get_int("casino_slots", (slots_random_results_table) + (slots_iter)) ~= 6 then
                         needs_run = true
@@ -463,15 +463,15 @@ script.register_looped("Casino Pacino Thread", function (script)
             end
         else
             local sum = 0
-            for slots_iter = 3, 195, 1 do
+            for slots_iter = 3, 196, 1 do
                 if slots_iter ~= 67 and slots_iter ~= 132 then
                     sum = sum + locals.get_int("casino_slots", (slots_random_results_table) + (slots_iter))
                 end
             end
-            needs_run = sum == 1146
+            needs_run = sum == 1152
         end
         if needs_run then
-            for slots_iter = 3, 195, 1 do
+            for slots_iter = 3, 196, 1 do
                 if slots_iter ~= 67 and slots_iter ~= 132 then
                     local slot_result = 6
                     if rig_slot_machine:is_enabled() == false then
@@ -485,7 +485,7 @@ script.register_looped("Casino Pacino Thread", function (script)
         local slotstate = locals.get_int("casino_slots", slots_slot_machine_state) --Local Laddie️™®️© is a product of Limited Laddies LLC, all rights reserved.
         if slotstate & (1 << 0) == 1 then --The user is sitting at a slot machine.
             if autoplay_slots:is_enabled() then
-                local chips = stats.get_int(STATS.GET_STAT_HASH_FOR_CHARACTER_STAT_(0, 8251, stats.get_character_index()))
+                local chips = stats.get_int('MPX_CASINO_CHIPS')
                 local chip_cap = autoplay_chips_cap:get_value()
                 if (autoplay_cap:is_enabled() and chips < chip_cap) or autoplay_cap:is_enabled() == false then
                     if (slotstate & (1 << 24) == 0) then --The slot machine is not currently spinning.
@@ -502,80 +502,48 @@ script.register_looped("Casino Pacino Thread", function (script)
         stats.set_int("MPPLY_CASINO_CHIPS_WON_GD", 0)
     end
     if gui.is_open() and casino_gui:is_selected() then
-        if config_table == nil then
-            local persisted_config = io.open("CasinoPacino.json", "r")
-            if persisted_config == nil then
-                config_table = {}
-                config_table["bypass_casino_bans"] = bypass_casino_bans:is_enabled()
-                config_table["force_poker_cards"] = force_poker_cards:is_enabled()
-                config_table["set_dealers_poker_cards"] = set_dealers_poker_cards:is_enabled()
-                config_table["rig_slot_machine"] = rig_slot_machine:is_enabled()
-                config_table["force_roulette_wheel"] = force_roulette_wheel:is_enabled()
-                config_table["autoplay_slots"] = autoplay_slots:is_enabled()
-                config_table["autoplay_cap"] = autoplay_cap:is_enabled()
-                config_table["autoplay_chips_cap"] = autoplay_chips_cap:get_value()
-                config_table["fm_mission_controller_cart_autograb"] = fm_mission_controller_cart_autograb
-                local new_file = io.open("CasinoPacino.json", "w+")
-                new_file:write(json.encode(config_table))
-                new_file:flush()
-                new_file:close()
-            else
-                config_table = json.decode(persisted_config:read("*all"))
-                bypass_casino_bans:set_enabled(config_table["bypass_casino_bans"])
-                force_poker_cards:set_enabled(config_table["force_poker_cards"])
-                set_dealers_poker_cards:set_enabled(config_table["set_dealers_poker_cards"])
-                rig_slot_machine:set_enabled(config_table["rig_slot_machine"])
-                force_roulette_wheel:set_enabled(config_table["force_roulette_wheel"])
-                autoplay_slots:set_enabled(config_table["autoplay_slots"])
-                autoplay_cap:set_enabled(config_table["autoplay_cap"])
-                autoplay_chips_cap:set_value(config_table["autoplay_chips_cap"])
-                fm_mission_controller_cart_autograb = config_table["fm_mission_controller_cart_autograb"]
-                persisted_config:close()
-            end
-        else
-            local pacino_needs_a_dunkpacino = false
-            if bypass_casino_bans:is_enabled() ~= config_table["bypass_casino_bans"] then
-                config_table["bypass_casino_bans"] = bypass_casino_bans:is_enabled()
-                pacino_needs_a_dunkpacino = true
-            end
-            if force_poker_cards:is_enabled() ~= config_table["force_poker_cards"] then
-                config_table["force_poker_cards"] = force_poker_cards:is_enabled()
-                pacino_needs_a_dunkpacino = true
-            end
-            if set_dealers_poker_cards:is_enabled() ~= config_table["set_dealers_poker_cards"] then
-                config_table["set_dealers_poker_cards"] = set_dealers_poker_cards:is_enabled()
-                pacino_needs_a_dunkpacino = true
-            end
-            if rig_slot_machine:is_enabled() ~= config_table["rig_slot_machine"] then
-                config_table["rig_slot_machine"] = rig_slot_machine:is_enabled()
-                pacino_needs_a_dunkpacino = true
-            end
-            if force_roulette_wheel:is_enabled() ~= config_table["force_roulette_wheel"] then
-                config_table["force_roulette_wheel"] = force_roulette_wheel:is_enabled()
-                pacino_needs_a_dunkpacino = true
-            end
-            if autoplay_slots:is_enabled() ~= config_table["autoplay_slots"] then
-                config_table["autoplay_slots"] = autoplay_slots:is_enabled()
-                pacino_needs_a_dunkpacino = true
-            end
-            if autoplay_cap:is_enabled() ~= config_table["autoplay_cap"] then
-                config_table["autoplay_cap"] = autoplay_cap:is_enabled()
-                pacino_needs_a_dunkpacino = true
-            end
-            if autoplay_chips_cap:get_value() ~= config_table["autoplay_chips_cap"] then
-                config_table["autoplay_chips_cap"] = autoplay_chips_cap:get_value()
-                pacino_needs_a_dunkpacino = true
-            end
-            if fm_mission_controller_cart_autograb ~= config_table["fm_mission_controller_cart_autograb"] then
-                config_table["fm_mission_controller_cart_autograb"] = fm_mission_controller_cart_autograb
-                pacino_needs_a_dunkpacino = true
-            end
-            if pacino_needs_a_dunkpacino then
-                local json_file = io.open("CasinoPacino.json", "w")
-                json_file:write(json.encode(config_table))
-                json_file:flush()
-                json_file:close()
-            end
+        local pacino_needs_a_dunkpacino = false
+        if bypass_casino_bans:is_enabled() ~= config_table["bypass_casino_bans"] then
+            config_table["bypass_casino_bans"] = bypass_casino_bans:is_enabled()
+            pacino_needs_a_dunkpacino = true
+        end
+        if force_poker_cards:is_enabled() ~= config_table["force_poker_cards"] then
+            config_table["force_poker_cards"] = force_poker_cards:is_enabled()
+            pacino_needs_a_dunkpacino = true
+        end
+        if set_dealers_poker_cards:is_enabled() ~= config_table["set_dealers_poker_cards"] then
+            config_table["set_dealers_poker_cards"] = set_dealers_poker_cards:is_enabled()
+            pacino_needs_a_dunkpacino = true
+        end
+        if rig_slot_machine:is_enabled() ~= config_table["rig_slot_machine"] then
+            config_table["rig_slot_machine"] = rig_slot_machine:is_enabled()
+            pacino_needs_a_dunkpacino = true
+        end
+        if force_roulette_wheel:is_enabled() ~= config_table["force_roulette_wheel"] then
+            config_table["force_roulette_wheel"] = force_roulette_wheel:is_enabled()
+            pacino_needs_a_dunkpacino = true
+        end
+        if autoplay_slots:is_enabled() ~= config_table["autoplay_slots"] then
+            config_table["autoplay_slots"] = autoplay_slots:is_enabled()
+            pacino_needs_a_dunkpacino = true
+        end
+        if autoplay_cap:is_enabled() ~= config_table["autoplay_cap"] then
+            config_table["autoplay_cap"] = autoplay_cap:is_enabled()
+            pacino_needs_a_dunkpacino = true
+        end
+        if autoplay_chips_cap:get_value() ~= config_table["autoplay_chips_cap"] then
+            config_table["autoplay_chips_cap"] = autoplay_chips_cap:get_value()
+            pacino_needs_a_dunkpacino = true
+        end
+        if fm_mission_controller_cart_autograb ~= config_table["fm_mission_controller_cart_autograb"] then
+            config_table["fm_mission_controller_cart_autograb"] = fm_mission_controller_cart_autograb
+            pacino_needs_a_dunkpacino = true
+        end
+        if pacino_needs_a_dunkpacino then
+            local json_file = io.open("CasinoPacino.json", "w")
+            json_file:write(json.encode(config_table))
+            json_file:flush()
+            json_file:close()
         end
         casino_heist_approach = stats.get_int("MPX_H3OPT_APPROACH")
         casino_heist_target = stats.get_int("MPX_H3OPT_TARGET")
@@ -600,3 +568,33 @@ script.register_looped("Casino Pacino Thread", function (script)
         end
     end
 end)
+
+local persisted_config = io.open("CasinoPacino.json", "r")
+if persisted_config == nil then
+    config_table = {}
+    config_table["bypass_casino_bans"] = bypass_casino_bans:is_enabled()
+    config_table["force_poker_cards"] = force_poker_cards:is_enabled()
+    config_table["set_dealers_poker_cards"] = set_dealers_poker_cards:is_enabled()
+    config_table["rig_slot_machine"] = rig_slot_machine:is_enabled()
+    config_table["force_roulette_wheel"] = force_roulette_wheel:is_enabled()
+    config_table["autoplay_slots"] = autoplay_slots:is_enabled()
+    config_table["autoplay_cap"] = autoplay_cap:is_enabled()
+    config_table["autoplay_chips_cap"] = autoplay_chips_cap:get_value()
+    config_table["fm_mission_controller_cart_autograb"] = fm_mission_controller_cart_autograb
+    local new_file = io.open("CasinoPacino.json", "w+")
+    new_file:write(json.encode(config_table))
+    new_file:flush()
+    new_file:close()
+else
+    config_table = json.decode(persisted_config:read("*all"))
+    bypass_casino_bans:set_enabled(config_table["bypass_casino_bans"])
+    force_poker_cards:set_enabled(config_table["force_poker_cards"])
+    set_dealers_poker_cards:set_enabled(config_table["set_dealers_poker_cards"])
+    rig_slot_machine:set_enabled(config_table["rig_slot_machine"])
+    force_roulette_wheel:set_enabled(config_table["force_roulette_wheel"])
+    autoplay_slots:set_enabled(config_table["autoplay_slots"])
+    autoplay_cap:set_enabled(config_table["autoplay_cap"])
+    autoplay_chips_cap:set_value(config_table["autoplay_chips_cap"])
+    fm_mission_controller_cart_autograb = config_table["fm_mission_controller_cart_autograb"]
+    persisted_config:close()
+end
