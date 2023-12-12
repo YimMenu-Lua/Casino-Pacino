@@ -2,34 +2,34 @@ local json = require('json')
 
 local casino_gui = gui.get_tab("GUI_TAB_NETWORK"):add_tab("Casino") --IT'S NOT AL ANYMORE! IT'S DUNK!
 
-local blackjack_cards              = 112
+local blackjack_cards              = 114
 local blackjack_decks              = 846
-local blackjack_table_players      = 1772
+local blackjack_table_players      = 1774
 local blackjack_table_players_size = 8
 
-local three_card_poker_table           = 745
+local three_card_poker_table           = 747
 local three_card_poker_table_size      = 9
-local three_card_poker_cards           = 112
+local three_card_poker_cards           = 114
 local three_card_poker_current_deck    = 168
-local three_card_poker_anti_cheat      = 1034
+local three_card_poker_anti_cheat      = 1036
 local three_card_poker_anti_cheat_deck = 799
 local three_card_poker_deck_size       = 55
 
-local roulette_master_table   = 120
+local roulette_master_table   = 122
 local roulette_outcomes_table = 1357
 local roulette_ball_table     = 153
 
-local slots_random_results_table = 1344
-local slots_slot_machine_state   = 1634
+local slots_random_results_table = 1346
+local slots_slot_machine_state   = 1636
 
-local prize_wheel_win_state   = 276
+local prize_wheel_win_state   = 278
 local prize_wheel_prize       = 14
 local prize_wheel_prize_state = 45
 
-local gb_casino_heist_planning            = 1971696
+local gb_casino_heist_planning            = 1963945
 local gb_casino_heist_planning_cut_offset = 1497 + 736 + 92
 
-local fm_mission_controller_cart_grab       = 10247
+local fm_mission_controller_cart_grab       = 10253
 local fm_mission_controller_cart_grab_speed = 14
 local fm_mission_controller_cart_autograb   = true
 
