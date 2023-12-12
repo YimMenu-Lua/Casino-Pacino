@@ -2,33 +2,35 @@ local json = require('json')
 
 local casino_gui = gui.get_tab("GUI_TAB_NETWORK"):add_tab("Casino") --IT'S NOT AL ANYMORE! IT'S DUNK!
 
-local blackjack_cards         = 112 --blackjack.c | { 0, 4, 208, 0
-local blackjack_table_players = 1772 --blackjack.c | [32];
-local blackjack_decks         = 846 --blackjack.c | [1]) == 10 || 
+local blackjack_cards              = 112
+local blackjack_decks              = 846
+local blackjack_table_players      = 1772
+local blackjack_table_players_size = 8
 
-local three_card_poker_cards           = blackjack_cards
-local three_card_poker_table           = 745 --three_card_poker | [32];
-local three_card_poker_current_deck    = 168 --three_card_poker | [iVar0 /*55*/]));
-local three_card_poker_anti_cheat      = 1034 --three_card_poker | struct<855>
-local three_card_poker_anti_cheat_deck = 799 --threecard_poker | [iParam0 /*55*/] };
+local three_card_poker_table           = 745
+local three_card_poker_table_size      = 9
+local three_card_poker_cards           = 112
+local three_card_poker_current_deck    = 168
+local three_card_poker_anti_cheat      = 1034
+local three_card_poker_anti_cheat_deck = 799
 local three_card_poker_deck_size       = 55
 
-local roulette_master_table   = 120 --casinoroulette | { 0, 6, 0, 0, 0,
-local roulette_outcomes_table = 1357 --casinoroulette | if (Var0.f_4 == 31)
-local roulette_ball_table     = 153 --casinoroulette | if (Var0.f_4 == 31)
+local roulette_master_table   = 120
+local roulette_outcomes_table = 1357
+local roulette_ball_table     = 153
 
-local slots_random_results_table = 1344 -- casino_slots | { 64, 3, 64, 0,
-local slots_slot_machine_state   = 1634 -- casino_slots | AUDIO::PLAY_SOUND_FRONTEND(-1, "DLC_VW_CONTINUE", "dlc_vw_table_games_frontend_sounds", true);
+local slots_random_results_table = 1344
+local slots_slot_machine_state   = 1634
 
-local prize_wheel_win_state   = 276 --casino_lucky_wheel.c | { 0, 0, 0, 0, 0, 0
-local prize_wheel_prize       = 14 --casino_lucky_wheel.c | CAS_LW_RCLO
-local prize_wheel_prize_state = 45 --casino_lucky_wheel.c | CAS_LW_VOUCH
+local prize_wheel_win_state   = 276
+local prize_wheel_prize       = 14
+local prize_wheel_prize_state = 45
 
-local gb_casino_heist_planning            = 1971696 --gb_casino_heist_planning.c | __EntryFunction__()
-local gb_casino_heist_planning_cut_offset = 1497 + 736 + 92 --gb_casino_heist_planning.c | AUDIO::PLAY_SOUND_FRONTEND(-1, "Highlight_Error", "DLC_HEIST_PLANNING_BOARD_SOUNDS", true);
+local gb_casino_heist_planning            = 1971696
+local gb_casino_heist_planning_cut_offset = 1497 + 736 + 92
 
-local fm_mission_controller_cart_grab       = 10247 --fm_mission_controller | DLC_HEIST_MINIGAME_PAC_CASH_GRAB_SCENE
-local fm_mission_controller_cart_grab_speed = 14 --fm_mission_controller | PED::SET_SYNCHRONIZED_SCENE_RATE(NETWORK::NETWORK_GET_LOCAL_SCENE_FROM_NETWORK_ID(
+local fm_mission_controller_cart_grab       = 10247
+local fm_mission_controller_cart_grab_speed = 14
 local fm_mission_controller_cart_autograb   = true
 
 local casino_heist_approach      = 0
@@ -112,7 +114,7 @@ casino_gui:add_button("Set Dealer's Hand To Bust", function()
             gui.show_message("CasinoPacino", "Taking control of the blackjack script.") --If you see this spammed, someone if fighting you for control.
             script:yield()
         end
-        local blackjack_table = locals.get_int("blackjack", blackjack_table_players + 1 + (player_id * 8) + 4) --The Player's current table he is sitting at.
+        local blackjack_table = locals.get_int("blackjack", blackjack_table_players + 1 + (player_id * blackjack_table_players_size) + 4) --The Player's current table he is sitting at.
         if blackjack_table ~= -1 then
             locals.set_int("blackjack", blackjack_cards + blackjack_decks + 1 + (blackjack_table * 13) + 1, 11)
             locals.set_int("blackjack", blackjack_cards + blackjack_decks + 1 + (blackjack_table * 13) + 2, 12)
@@ -388,10 +390,9 @@ casino_gui:add_button("Set AI Crew Cuts to 0%", function ()
 end)
 casino_gui:add_sameline()
 casino_gui:add_button("Set All Cuts to 100%", function ()
-    globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + 1, 100)
-    globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + 2, 100)
-    globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + 3, 100)
-    globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + 4, 100)
+    for i = 1, 4, 1 do
+        globals.set_int(gb_casino_heist_planning + gb_casino_heist_planning_cut_offset + i, 100)
+    end
 end)
 
 script.register_looped("Casino Pacino Thread", function (script)
@@ -403,7 +404,7 @@ script.register_looped("Casino Pacino Thread", function (script)
                 gui.show_message("CasinoPacino", "Taking control of the three_card_poker script.") --If you see this spammed, someone if fighting you for control.
                 script:sleep(500)
             end
-            local players_current_table = locals.get_int("three_card_poker", three_card_poker_table + 1 + (player_id * 9) + 2) --The Player's current table he is sitting at.
+            local players_current_table = locals.get_int("three_card_poker", three_card_poker_table + 1 + (player_id * three_card_poker_table_size) + 2) --The Player's current table he is sitting at.
             if (players_current_table ~= -1) then -- If the player is sitting at a poker table
                 local player_0_card_1 = locals.get_int("three_card_poker", (three_card_poker_cards) + (three_card_poker_current_deck) + (1 + (players_current_table * three_card_poker_deck_size)) + (2) + (1) + (0 * 3))
                 local player_0_card_2 = locals.get_int("three_card_poker", (three_card_poker_cards) + (three_card_poker_current_deck) + (1 + (players_current_table * three_card_poker_deck_size)) + (2) + (2) + (0 * 3))
@@ -411,7 +412,7 @@ script.register_looped("Casino Pacino Thread", function (script)
                 if player_0_card_1 ~= 50 or player_0_card_2 ~= 51 or player_0_card_3 ~= 52 then --Check if we need to overwrite the deck.
                     local total_players = 0
                     for player_iter = 0, 31, 1 do
-                        local player_table = locals.get_int("three_card_poker", three_card_poker_table + 1 + (player_iter * 9) + 2)
+                        local player_table = locals.get_int("three_card_poker", three_card_poker_table + 1 + (player_iter * three_card_poker_table_size) + 2)
                         if player_iter ~= player_id and player_table == players_current_table then --An additional player is sitting at the user's table.
                             total_players = total_players + 1
                         end
@@ -428,7 +429,7 @@ script.register_looped("Casino Pacino Thread", function (script)
     end
     if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("blackjack")) ~= 0 then
         local dealers_card = 0
-        local blackjack_table = locals.get_int("blackjack", blackjack_table_players + 1 + (PLAYER.PLAYER_ID() * 8) + 4) --The Player's current table he is sitting at.
+        local blackjack_table = locals.get_int("blackjack", blackjack_table_players + 1 + (PLAYER.PLAYER_ID() * blackjack_table_players_size) + 4) --The Player's current table he is sitting at.
         if blackjack_table ~= -1 then
             dealers_card = locals.get_int("blackjack", blackjack_cards + blackjack_decks + 1 + (blackjack_table * 13) + 1) --Dealer's facedown card.
             dealers_card_gui_element:set_value(get_cardname_from_index(dealers_card))
