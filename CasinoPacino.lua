@@ -46,8 +46,10 @@ local casino_heist_masks         = 0
 
 local bypass_casino_bans = casino_gui:add_checkbox("Bypass Casino Cooldown")
 casino_gui:add_text("Winning too much too quickly might get you banned, enable this at your own risk.")
+casino_gui:add_text("Casino Banned Status:")
+casino_gui:add_sameline()
+local banned_element = casino_gui:add_input_string("##banned_element")
 casino_gui:add_separator()
-
 casino_gui:add_text("Poker") --If his name is Al Pacino and he said, "It's not Al anymore, it's Dunk!", then his name should now be Dunk Pacino.
 local force_poker_cards = casino_gui:add_checkbox("Force all Players Hands to Royal Flush")
 casino_gui:add_sameline()
@@ -501,6 +503,11 @@ script.register_looped("Casino Pacino Thread", function (script)
     end
     if bypass_casino_bans:is_enabled() then
         stats.set_int("MPPLY_CASINO_CHIPS_WON_GD", 0)
+        stats.set_int("MPPLY_CASINO_CHIPS_WONTIM", 0)
+        stats.set_int("MPPLY_CASINO_GMBLNG_GD", 0)
+        stats.set_int("MPPLY_CASINO_BAN_TIME", 0)
+        stats.set_int("MPPLY_CASINO_CHIPS_PURTIM", 0)
+        stats.set_int("MPPLY_CASINO_CHIPS_PUR_GD", 0)
     end
     if gui.is_open() and casino_gui:is_selected() then
         local pacino_needs_a_dunkpacino = false
@@ -556,6 +563,12 @@ script.register_looped("Casino Pacino Thread", function (script)
         casino_heist_weapons = stats.get_int("MPX_H3OPT_WEAPS")
         casino_heist_cars = stats.get_int("MPX_H3OPT_VEHS")
         casino_heist_masks = stats.get_int("MPX_H3OPT_MASKS")
+        local cooldown_time = tunables.get_int("VC_CASINO_CHIP_MAX_WIN_LOSS_COOLDOWN")
+        local time_delta = os.time() - stats.get_int("MPPLY_CASINO_CHIPS_WONTIM") --"I've won the jackpot, and it doesn't make me feel bad." ~Casino Pacino (He only cares about winners)
+        local minutes_left = (cooldown_time - time_delta) / 60
+        local chipswon_gd = stats.get_int("MPPLY_CASINO_CHIPS_WON_GD")
+        local max_chip_wins = tunables.get_int("VC_CASINO_CHIP_MAX_WIN_DAILY")
+        banned_element:set_value(chipswon_gd >= max_chip_wins and "Ban expires in approximately: " .. string.format("%.2f", minutes_left) .. " minute(s)." or "Not Banned")
     end
     if HUD.IS_PAUSE_MENU_ACTIVE() then
         PAD.DISABLE_CONTROL_ACTION(0, 348, true)
