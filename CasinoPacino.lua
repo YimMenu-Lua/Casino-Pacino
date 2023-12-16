@@ -46,7 +46,7 @@ local casino_heist_masks         = 0
 
 local bypass_casino_bans = casino_gui:add_checkbox("Bypass Casino Cooldown")
 casino_gui:add_text("Winning too much too quickly might get you banned, enable this at your own risk.")
-casino_gui:add_text("Casino Banned Status:")
+casino_gui:add_text("Casino Cooldown Status:")
 casino_gui:add_sameline()
 local banned_element = casino_gui:add_input_string("##banned_element")
 casino_gui:add_separator()
@@ -568,7 +568,7 @@ script.register_looped("Casino Pacino Thread", function (script)
         local minutes_left = (cooldown_time - time_delta) / 60
         local chipswon_gd = stats.get_int("MPPLY_CASINO_CHIPS_WON_GD")
         local max_chip_wins = tunables.get_int("VC_CASINO_CHIP_MAX_WIN_DAILY")
-        banned_element:set_value(chipswon_gd >= max_chip_wins and "Ban expires in approximately: " .. string.format("%.2f", minutes_left) .. " minute(s)." or "Not Banned")
+        banned_element:set_value(chipswon_gd >= max_chip_wins and "Cooldown expires in approximately: " .. string.format("%.2f", minutes_left) .. " minute(s)." or "Off Cooldown")
     end
     if HUD.IS_PAUSE_MENU_ACTIVE() then
         PAD.DISABLE_CONTROL_ACTION(0, 348, true)
