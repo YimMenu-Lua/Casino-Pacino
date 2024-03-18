@@ -1,5 +1,5 @@
 --
--- json.lua
+-- CasinoPacinoJson.lua
 --
 -- Copyright (c) 2020 rxi
 --
@@ -22,7 +22,7 @@
 -- SOFTWARE.
 --
 
-local json = { _version = "0.1.2" }
+local CasinoPacinoJson = { _version = "0.1.2" }
 
 -------------------------------------------------------------------------------
 -- Encode
@@ -131,7 +131,7 @@ encode = function(val, stack)
 end
 
 
-function json.encode(val)
+function CasinoPacinoJson.encode(val)
   return ( encode(val) )
 end
 
@@ -372,7 +372,7 @@ parse = function(str, idx)
 end
 
 
-function json.decode(str)
+function CasinoPacinoJson.decode(str)
   if type(str) ~= "string" then
     error("expected argument of type string, got " .. type(str))
   end
@@ -385,4 +385,4 @@ function json.decode(str)
 end
 
 
-return json
+return CasinoPacinoJson
