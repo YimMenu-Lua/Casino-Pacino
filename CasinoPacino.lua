@@ -572,10 +572,6 @@ script.register_looped("Casino Pacino Thread", function (script)
         local max_chip_wins = tunables.get_int("VC_CASINO_CHIP_MAX_WIN_DAILY")
         banned_element:set_value(chipswon_gd >= max_chip_wins and "Cooldown expires in approximately: " .. string.format("%.2f", minutes_left) .. " minute(s)." or "Off Cooldown")
     end
-    if HUD.IS_PAUSE_MENU_ACTIVE() then
-        PAD.DISABLE_CONTROL_ACTION(0, 348, true)
-        PAD.DISABLE_CONTROL_ACTION(0, 204, true)
-    end
     if fm_mission_controller_cart_autograb then
         if locals.get_int("fm_mission_controller", fm_mission_controller_cart_grab) == 3 then
             locals.set_int("fm_mission_controller", fm_mission_controller_cart_grab, 4)
