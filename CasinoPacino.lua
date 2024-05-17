@@ -487,9 +487,9 @@ script.register_looped("Casino Pacino Thread", function (script)
                 end
             end
         end
-        local slotstate = locals.get_int("casino_slots", slots_slot_machine_state) --Local Laddie️™®️© is a product of Limited Laddies LLC, all rights reserved.
-        if slotstate & (1 << 0) == 1 then --The user is sitting at a slot machine.
-            if autoplay_slots:is_enabled() then
+        if autoplay_slots:is_enabled() then
+            local slotstate = locals.get_int("casino_slots", slots_slot_machine_state) --Local Laddie️™®️© is a product of Limited Laddies LLC, all rights reserved.
+            if slotstate & (1 << 0) == 1 then --The user is sitting at a slot machine.
                 local chips = stats.get_int('MPX_CASINO_CHIPS')
                 local chip_cap = autoplay_chips_cap:get_value()
                 if (autoplay_cap:is_enabled() and chips < chip_cap) or autoplay_cap:is_enabled() == false then
