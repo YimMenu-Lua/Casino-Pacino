@@ -510,6 +510,8 @@ script.register_looped("Casino Pacino Thread", function (script)
         stats.set_int("MPPLY_CASINO_BAN_TIME", 0)
         stats.set_int("MPPLY_CASINO_CHIPS_PURTIM", 0)
         stats.set_int("MPPLY_CASINO_CHIPS_PUR_GD", 0)
+        stats.set_int("MPPLY_CASINO_CHIPS_SOLD", 0)
+        stats.set_int("MPPLY_CASINO_CHIPS_SELTIM", 0)
     end
     if gui.is_open() and casino_gui:is_selected() then
         local pacino_needs_a_dunkpacino = false
